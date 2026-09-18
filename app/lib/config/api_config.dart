@@ -1,9 +1,6 @@
 class ApiConfig {
-  // 현재 설정: USB로 연결한 실기기 + `adb reverse tcp:3000 tcp:3000` 사용 (PC의 백엔드를
-  // 휴대폰의 localhost:3000으로 그대로 연결). USB를 다시 연결하면 `adb reverse` 를 다시 실행해야 합니다.
-  //
-  // 다른 환경에서 테스트할 때는 아래 중 하나로 바꿔주세요.
-  // - 안드로이드 에뮬레이터: http://10.0.2.2:3000
-  // - Wi-Fi로 연결한 실기기(같은 공유기): http://<PC의 로컬 IP>:3000 (Windows에서 `ipconfig`로 확인)
-  static const String backendBaseUrl = 'http://localhost:3000';
+  // Render.com에 배포된 백엔드 (무료 플랜). PC를 켜두지 않아도 동작합니다.
+  // 무료 플랜은 일정 시간 요청이 없으면 슬립 상태로 전환되어, 첫 요청 응답이
+  // 최대 50초 정도 걸릴 수 있습니다 (이후 요청부터는 빨라짐).
+  static const String backendBaseUrl = 'https://travel-manager-backend-xnhg.onrender.com';
 }
