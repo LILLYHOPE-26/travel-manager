@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: travel-manager-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000

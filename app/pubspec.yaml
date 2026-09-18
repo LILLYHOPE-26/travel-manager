@@ -1,0 +1,26 @@
+name: travel_manager_app
+description: 여행 올인원 매니저 - 일정표 생성, 영수증 가계부, 관광지/맛집 추천
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+  http: ^1.2.2
+  image_picker: ^1.1.2
+  sqflite: ^2.3.3
+  path: ^1.9.0
+  intl: ^0.19.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
