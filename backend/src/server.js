@@ -6,6 +6,7 @@ const itineraryRouter = require('./routes/itinerary');
 const receiptRouter = require('./routes/receipt');
 const placesRouter = require('./routes/places');
 const exchangeRateRouter = require('./routes/exchangeRate');
+const routeRouter = require('./routes/route');
 
 const app = express();
 app.use(cors());
@@ -17,6 +18,7 @@ app.use('/api/itinerary', itineraryRouter);
 app.use('/api/receipt', receiptRouter);
 app.use('/api/places', placesRouter);
 app.use('/api/exchange-rate', exchangeRateRouter);
+app.use('/api/route', routeRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {

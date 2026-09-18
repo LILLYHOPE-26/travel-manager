@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'providers/itinerary_provider.dart';
 import 'providers/receipt_provider.dart';
 import 'providers/place_provider.dart';
+import 'providers/route_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -19,6 +20,7 @@ class TravelManagerApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ItineraryProvider()),
         ChangeNotifierProvider(create: (_) => ReceiptProvider()),
         ChangeNotifierProvider(create: (_) => PlaceProvider()),
+        ChangeNotifierProvider(create: (_) => RouteProvider()),
       ],
       child: MaterialApp(
         title: '여행 올인원 매니저',

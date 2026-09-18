@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'itinerary_screen.dart';
 import 'receipt_screen.dart';
 import 'place_screen.dart';
+import 'route_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
 
-  final _screens = const [ItineraryScreen(), ReceiptScreen(), PlaceScreen()];
+  final _screens = const [ItineraryScreen(), ReceiptScreen(), PlaceScreen(), RouteScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
           NavigationDestination(icon: Icon(Icons.calendar_month), label: '일정표'),
           NavigationDestination(icon: Icon(Icons.receipt_long), label: '가계부'),
           NavigationDestination(icon: Icon(Icons.map), label: '추천'),
+          NavigationDestination(icon: Icon(Icons.alt_route), label: '경로'),
         ],
       ),
     );
