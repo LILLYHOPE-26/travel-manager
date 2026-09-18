@@ -20,12 +20,20 @@ class RouteResult {
   final List<RouteLeg> legs;
   final int totalDistanceM;
   final int totalDurationMin;
+  final String transport;
 
-  RouteResult({required this.legs, required this.totalDistanceM, required this.totalDurationMin});
+  RouteResult({required this.legs, required this.totalDistanceM, required this.totalDurationMin, required this.transport});
 
   factory RouteResult.fromJson(Map<String, dynamic> json) => RouteResult(
         legs: (json['legs'] as List<dynamic>? ?? []).map((e) => RouteLeg.fromJson(e as Map<String, dynamic>)).toList(),
         totalDistanceM: (json['totalDistanceM'] as num?)?.toInt() ?? 0,
         totalDurationMin: (json['totalDurationMin'] as num?)?.toInt() ?? 0,
+        transport: json['transport']?.toString() ?? '렌터카',
       );
+
+  // 경로 순서대로 나열한 지점 이름 목록 (출발지 -> 경유지... -> 목적지)
+  List<String> get orderedPlaceNames {
+    if (legs.isEmpty) return [];
+    return [legs.first.from, ...legs.map((l) => l.to)];
+  }
 }

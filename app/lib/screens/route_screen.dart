@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/route_models.dart';
 import '../providers/route_provider.dart';
 import '../widgets/error_view.dart';
@@ -143,6 +144,29 @@ class _RouteResultView extends StatelessWidget {
     return h > 0 ? '$h시간 $m분' : '$m분';
   }
 
+  Future<void> _openInGoogleMaps(BuildContext context) async {
+    final places = result.orderedPlaceNames;
+    if (places.length < 2) return;
+
+    const modeMap = {'도보': 'walking', '렌터카': 'driving', '대중교통': 'transit'};
+    final waypoints = places.sublist(1, places.length - 1);
+
+    final uri = Uri.https('www.google.com', '/maps/dir/', {
+      'api': '1',
+      'origin': places.first,
+      'destination': places.last,
+      'travelmode': modeMap[result.transport] ?? 'driving',
+      if (waypoints.isNotEmpty) 'waypoints': waypoints.join('|'),
+    });
+
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launched && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('확인 불가 (지도 앱을 열 수 없습니다)')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -157,6 +181,12 @@ class _RouteResultView extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ),
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          onPressed: () => _openInGoogleMaps(context),
+          icon: const Icon(Icons.map_outlined),
+          label: const Text('구글 지도에서 실제 경로 보기'),
         ),
         const SizedBox(height: 12),
         const Text('구간별 상세', style: TextStyle(fontWeight: FontWeight.bold)),
