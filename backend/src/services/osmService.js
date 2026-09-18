@@ -41,19 +41,28 @@ function haversineMeters(lat1, lng1, lat2, lng2) {
 }
 
 // 지역명을 좌표로 변환 (무료, 키 불필요). 여러 결과가 5km 이상 떨어져 있으면 동명 지역으로 간주.
-async function geocode(query) {
-  const { data } = await axios.get(`${NOMINATIM_BASE}/search`, {
-    params: { q: query, format: 'json', addressdetails: 1, limit: 5, 'accept-language': 'ko' },
-    headers: { 'User-Agent': USER_AGENT },
-    timeout: 10000,
-  });
+// Nominatim 공용 서버는 트래픽이 몰리면 일시적으로 429를 반환하므로 짧은 대기 후 최대 2회 재시도한다.
+async function geocode(query, attempt = 0) {
+  try {
+    const { data } = await axios.get(`${NOMINATIM_BASE}/search`, {
+      params: { q: query, format: 'json', addressdetails: 1, limit: 5, 'accept-language': 'ko' },
+      headers: { 'User-Agent': USER_AGENT },
+      timeout: 10000,
+    });
 
-  return data.map((d) => ({
-    name: d.display_name,
-    lat: parseFloat(d.lat),
-    lng: parseFloat(d.lon),
-    placeId: d.place_id?.toString(),
-  }));
+    return data.map((d) => ({
+      name: d.display_name,
+      lat: parseFloat(d.lat),
+      lng: parseFloat(d.lon),
+      placeId: d.place_id?.toString(),
+    }));
+  } catch (err) {
+    if (err.response?.status === 429 && attempt < 2) {
+      await sleep(3000 * (attempt + 1));
+      return geocode(query, attempt + 1);
+    }
+    throw err;
+  }
 }
 
 function dedupeFarApart(results) {
