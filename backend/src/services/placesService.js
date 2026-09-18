@@ -1,7 +1,7 @@
 const osm = require('./osmService');
 
 async function buildPlaceResult(lat, lng, formattedAddress) {
-  // Overpass 공용 서버 레이트리밋 방지를 위해 순차 호출한다.
+  // Geoapify 무료 요금제 레이트리밋 방지를 위해 순차 호출한다.
   const attractionsRaw = await osm.findAttractions(lat, lng, 3000, 30);
   const restaurantsRaw = await osm.findRestaurants(lat, lng, 1500, 30);
 

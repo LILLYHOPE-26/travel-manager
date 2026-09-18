@@ -93,7 +93,7 @@ async function generateItinerary(payload) {
   const { lat, lng } = geoResults[0];
 
   const radius = Math.min(3000 + totalDays * 1500, 10000);
-  // Overpass 공용 서버 레이트리밋 방지를 위해 순차 호출한다.
+  // Geoapify 무료 요금제 레이트리밋 방지를 위해 순차 호출한다.
   const attractionsRaw = await osm.findAttractions(lat, lng, radius, 60);
   const restaurantsRaw = await osm.findRestaurants(lat, lng, Math.min(radius, 4000), 60);
 
